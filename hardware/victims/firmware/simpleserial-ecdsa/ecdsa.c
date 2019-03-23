@@ -177,16 +177,20 @@ int point_is_negative_of(const curve_point *p, const curve_point *q)
 void conditional_negate(uint32_t cond, bignum256 *a, const bignum256 *prime)
 {
 	int j;
-	uint32_t tmp = 1;
+	uint32_t tmp1 = 1;
+	uint32_t tmp2 = 0;
 	assert(a->val[8] < 0x20000);
 	for (j = 0; j < 8; j++) {
-		tmp += 0x3fffffff + 2*prime->val[j] - a->val[j];
-		a->val[j] = ((tmp & 0x3fffffff) & cond) | (a->val[j] & ~cond);
-		tmp >>= 30;
+		tmp1 += 0x3fffffff + 2*prime->val[j] - a->val[j];
+		tmp2 += prime->val[j] + a->val[j];
+		a->val[j] = ((tmp1 & 0x3fffffff) & cond) | (tmp2 & ~cond);
+		tmp1 >>= 30;
+		tmp2 >>= 30;
 	}
-	tmp += 0x3fffffff + 2*prime->val[j] - a->val[j];
-	a->val[j] = ((tmp & 0x3fffffff) & cond) | (a->val[j] & ~cond);
-	assert(a->val[8] < 0x20000);
+	tmp1 += 0x3fffffff + 2*prime->val[j] - a->val[j];
+	tmp2 += prime->val[j] + a->val[j];
+	a->val[j] = ((tmp1 & 0x3fffffff) & cond) | (tmp2 & ~cond);
+	assert(a->val[8] < 0x30000);
 }
 
 typedef struct jacobian_curve_point {
