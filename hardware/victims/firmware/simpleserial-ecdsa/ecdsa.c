@@ -37,6 +37,8 @@
 #include "rfc6979.h"
 #include "memzero.h"
 
+#include "hal.h"
+
 // Set cp2 = cp1
 void point_copy(const curve_point *cp1, curve_point *cp2)
 {
@@ -512,6 +514,9 @@ void point_multiply(const ecdsa_curve *curve, const bignum256 *k, const curve_po
 		point_jacobian_double(&jres, curve);
 		point_jacobian_double(&jres, curve);
 		point_jacobian_double(&jres, curve);
+		if (i == 62) {
+			trigger_high();
+		}
 
 		// get lowest 5 bits of a >> (i*4).
 		ashift -= 4;
@@ -537,6 +542,9 @@ void point_multiply(const ecdsa_curve *curve, const bignum256 *k, const curve_po
 		// add odd factor
 		point_jacobian_add(&pmult[bits >> 1], &jres, curve);
 		sign = nsign;
+		if (i == 62) {
+			trigger_low();
+		}
 	}
 	conditional_negate(sign, &jres.z, prime);
 	jacobian_to_curve(&jres, res, prime);
