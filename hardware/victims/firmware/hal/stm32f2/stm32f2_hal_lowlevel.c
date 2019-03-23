@@ -61,12 +61,12 @@ const uint8_t APBAHBPrescTable[16] = {0U, 0U, 0U, 0U, 1U, 2U, 3U, 4U, 1U, 2U, 3U
 
 uint32_t HAL_RCC_GetSysClockFreq(void)
 {
-	return 7372800U;
+	return 120000000u;
 }
 
 uint32_t HAL_RCC_GetPCLK1Freq(void)
 {
-	return 7372800U;
+	return 30000000u;
 }
 
 
@@ -516,7 +516,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
 {
   /* Get HCLK source and Compute PCLK2 frequency ---------------------------*/
   //return (HAL_RCC_GetHCLKFreq()>> APBPrescTable[(RCC->CFGR & RCC_CFGR_PPRE2)>> POSITION_VAL(RCC_CFGR_PPRE2)]);
-  return 7372800;
+  return 60000000u;
 }
 
 

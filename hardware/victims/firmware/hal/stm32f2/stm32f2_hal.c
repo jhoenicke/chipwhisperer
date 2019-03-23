@@ -26,7 +26,7 @@ void platform_init(void)
 	RCC_ClkInitStruct.AHBCLKDivider  = RCC_SYSCLK_DIV1;
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-	uint32_t flash_latency = 5;
+	uint32_t flash_latency = 0;
 	HAL_RCC_ClockConfig(&RCC_ClkInitStruct, flash_latency);
 }
 
